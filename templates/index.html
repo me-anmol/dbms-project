@@ -166,7 +166,7 @@
 									<div class="intro_icon"><img src="{% static 'images/beach.svg'%}" alt=""></div>
 									<div class="intro_content">
 										<div class="intro_title">Top Destinations</div>
-										<div class="intro_subtitle"><p>Nulla pretium tincidunt felis, nec.</p></div>
+										
 									</div>
 								</div>
 							</div>
@@ -177,7 +177,7 @@
 									<div class="intro_icon"><img src="{% static 'images/wallet.svg'%}" alt=""></div>
 									<div class="intro_content">
 										<div class="intro_title">The Best Prices</div>
-										<div class="intro_subtitle"><p>Sollicitudin mauris lobortis in.</p></div>
+										
 									</div>
 								</div>
 							</div>
@@ -188,7 +188,6 @@
 									<div class="intro_icon"><img src="{% static 'images/suitcase.svg'%}" alt=""></div>
 									<div class="intro_content">
 										<div class="intro_title">Amazing Services</div>
-										<div class="intro_subtitle"><p>Nulla pretium tincidunt felis, nec.</p></div>
 									</div>
 								</div>
 							</div>
@@ -223,7 +222,7 @@
             {% endif %}
 							</div>
 							<div class="destination_content">
-								<div class="destination_title"><a href="{% url 'desti' %}">{{ desti.name }}</a></div>
+								<div class="destination_title"><a href="{% url 'desti' oid=desti.id %}">{{ desti.name }}</a></div>
 								<div class="destination_subtitle"><p>{{ desti.desc}}</p></div>
 								<div class="destination_price">From ${{ desti.per_day_cost }}</div>
 							</div>

@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from .models import destination,userinfo
+from .models import destination,userinfo,hotel,travel,registeration
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 
@@ -56,8 +56,15 @@ def sign(request):
         return redirect('/')
     return render(request,'register.html',{'flag':True ,'msg':'Internal Error occured'})
 
-def desti(request):
-    return render(request,'destination.html')
+def desti(request,oid):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % ('/login', request.path))
+    data = destination.objects.filter(id = oid).first()
+    hotel_list = list(hotel.objects.values_list('name',flat =True).filter(address = data.name))
+    travel_list = list(travel.objects.values_list('name',flat =True).filter(loc = data.name))
+    send = { 'data': data, 'hotel_list': hotel_list, 'travel_list':travel_list}
+    print(hotel_list)
+    return render(request,'destination.html',send)
 
 
 def logoutp(request):

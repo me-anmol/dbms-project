@@ -21,8 +21,30 @@ class destination(models.Model):
 
 class userinfo(models.Model):
     user = models.OneToOneField(User, on_delete =models.CASCADE)
-    address = models.TextField()
+    address = models.CharField(max_length = 20)
     dob = models.DateField()
     phone = models.CharField(max_length=10)
 
+
+class hotel(models.Model):
+    name = models.CharField(max_length=20)
+    address = models.CharField(max_length = 20)
+    per_day_cost = models.FloatField()
+    max_res = models.IntegerField()
+    no_res = models.IntegerField()
+
+class travel(models.Model):
+    name = models.CharField(max_length = 20)
+    rtc = models.FloatField()
+    loc = models.CharField(max_length = 20)
+    max_res = models.IntegerField()
+    no_res = models.IntegerField()
+
+
+class registeration(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)    
+    hotel = models.ForeignKey(hotel, on_delete = models.CASCADE)
+    travel = models.ForeignKey(travel, on_delete = models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
 

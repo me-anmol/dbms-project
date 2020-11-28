@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <title>{{ data.name}}</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css'%}">
@@ -14,13 +14,18 @@
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-        <div class="container"><a class="navbar-brand logo" href="#">Travello</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand logo" href="{% url 'home' %}">Travello</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                 id="navbarNav">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                    {% if user.is_authenticated%}
+						<li class= "nav-link" style="color: white; font-size: medium">Hello {{ user.first_name}}</li>
+						<li><a   href="{% url 'logout' %}">Logout</a></li>
+					{% else %}
+						<li><a href="{% url 'login' %}">Login</a></li>
+						<li><a href="{% url 'register' %}">Register</a></li>
+					{% endif%}
                 </ul>
             </div>
         </div>
@@ -28,9 +33,36 @@
     <main class="page lanidng-page">
         <section class="portfolio-block block-intro">
             <div class="container">
-                <div class="avatar" style="background-image:url(&quot;{% static 'assets/img/avatars/avatar.jpg'%}&quot;);"></div>
+                <div class="avatar" style="background-image:url(&quot;{{ data.img.url }}&quot;);"></div>
                 <div class="about-me">
-                    <p>Hello! I am <strong>John Smith</strong>. I work as interface and front end developer. I have passion for pixel perfect, minimal and easy to use interfaces.</p><a class="btn btn-outline-primary" role="button" href="#">Hire me</a></div>
+                    <p>Hello! Great Choice <strong> {{ data.name }} </strong> {{ data.desc}} </p>
+                    <form method="post"action="{% url 'home' %}">
+                        {% csrf_token %}
+                        <h2 class="text-center"><strong>Selections</strong></h2>
+                        <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Hotels</small>
+                        <select name = 'kaam' class="form-control">
+                            <option disabled ='true' selected> --Select Maadi---</option>
+                            {% for item in hotel_list %}
+                            <option class="dropdown-item" value="{{ item }}" href="#">{{ item }}</option>
+                            {% endfor %}
+                          </select>
+                        <br>
+                        <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Travel Service</small>
+                        <select name = 'kaam' class="form-control">
+                            <option disabled ='true' selected> --Select Maadi---</option>
+                            {% for item in travel_list %}
+                            <option class="dropdown-item" value="{{ item }}" href="#">{{ item }}</option>
+                            {% endfor %}
+                          </select>
+                        <br>
+                        <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Date Of Start</small>
+                        <div class="form-group"><input class="form-control" type="date" name="startdate" placeholder="Date Of Start"></div>
+                        <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Date Of End</small>
+                        <div class="form-group"><input class="form-control" type="date" name="enddate" placeholder="Date Of End"></div>
+        
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Book now</button>
+                    </form>
+                   
             </div>
         </section>
     </main>
