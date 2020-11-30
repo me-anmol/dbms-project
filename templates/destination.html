@@ -36,22 +36,22 @@
                 <div class="avatar" style="background-image:url(&quot;{{ data.img.url }}&quot;);"></div>
                 <div class="about-me">
                     <p>Hello! Great Choice <strong> {{ data.name }} </strong> {{ data.desc}} </p>
-                    <form method="post"action="{% url 'home' %}">
+                    <form method="post"action="{% url 'book' %}">
                         {% csrf_token %}
                         <h2 class="text-center"><strong>Selections</strong></h2>
                         <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Hotels</small>
-                        <select name = 'kaam' class="form-control">
+                        <select name = 'hotel' class="form-control">
                             <option disabled ='true' selected> --Select Maadi---</option>
                             {% for item in hotel_list %}
-                            <option class="dropdown-item" value="{{ item }}" href="#">{{ item }}</option>
+                            <option class="dropdown-item" value="{{ item.id }}" href="#">{{ item.name }} for {{ item.per_day_cost}}</option>
                             {% endfor %}
                           </select>
                         <br>
                         <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Travel Service</small>
-                        <select name = 'kaam' class="form-control">
+                        <select name = 'travel' class="form-control">
                             <option disabled ='true' selected> --Select Maadi---</option>
                             {% for item in travel_list %}
-                            <option class="dropdown-item" value="{{ item }}" href="#">{{ item }}</option>
+                            <option class="dropdown-item" value="{{ item.id }}" href="#">{{ item.name }} for {{ item.rtc }}</option>
                             {% endfor %}
                           </select>
                         <br>

@@ -33,12 +33,25 @@ class hotel(models.Model):
     max_res = models.IntegerField()
     no_res = models.IntegerField()
 
+    def update_res(self):
+        if self.no_res < self.max_res:
+            self.no_res +=1
+            return True
+        return False
+
 class travel(models.Model):
     name = models.CharField(max_length = 20)
     rtc = models.FloatField()
     loc = models.CharField(max_length = 20)
     max_res = models.IntegerField()
     no_res = models.IntegerField()
+
+    def update_res(self):
+        if self.no_res < self.max_res:
+            self.no_res +=1
+            return True
+        return False
+        
 
 
 class registeration(models.Model):
@@ -47,4 +60,6 @@ class registeration(models.Model):
     travel = models.ForeignKey(travel, on_delete = models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
+
+    
 
