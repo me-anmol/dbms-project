@@ -32,7 +32,7 @@
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									<li class="active"><a href="{% url 'index' %}">Home</a></li>
 									{% if user.is_authenticated%}
-									<li style="color: white; font-size: medium">Hello {{ user.first_name}}</li>
+									<li style="color: white; font-size: medium"><a href="{% url 'account' %}">Hello {{ user.first_name}}</a></li>
 									<li><a href="{% url 'logout' %}">Logout</a></li>
 									{% else %}
 									<li><a href="{% url 'login' %}">Login</a></li>

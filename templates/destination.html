@@ -36,11 +36,11 @@
                 <div class="avatar" style="background-image:url(&quot;{{ data.img.url }}&quot;);"></div>
                 <div class="about-me">
                     <p>Hello! Great Choice <strong> {{ data.name }} </strong> {{ data.desc}} </p>
-                    <form method="post"action="{% url 'book' %}">
+                    <form method="post"action="{% url 'book' oid=data.id %}">
                         {% csrf_token %}
                         <h2 class="text-center"><strong>Selections</strong></h2>
                         <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Hotels</small>
-                        <select name = 'hotel' class="form-control">
+                        <select name = 'hotel_id' class="form-control">
                             <option disabled ='true' selected> --Select Maadi---</option>
                             {% for item in hotel_list %}
                             <option class="dropdown-item" value="{{ item.id }}" href="#">{{ item.name }} for {{ item.per_day_cost}}</option>
@@ -48,7 +48,7 @@
                           </select>
                         <br>
                         <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Travel Service</small>
-                        <select name = 'travel' class="form-control">
+                        <select name = 'travel_id' class="form-control">
                             <option disabled ='true' selected> --Select Maadi---</option>
                             {% for item in travel_list %}
                             <option class="dropdown-item" value="{{ item.id }}" href="#">{{ item.name }} for {{ item.rtc }}</option>
@@ -59,7 +59,16 @@
                         <div class="form-group"><input class="form-control" type="date" name="startdate" placeholder="Date Of Start"></div>
                         <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Date Of End</small>
                         <div class="form-group"><input class="form-control" type="date" name="enddate" placeholder="Date Of End"></div>
-        
+                        
+                        {% if messages%}
+                        <ul clsass= 'messages'>
+                            {% for message in messages%}
+                            <li>
+                                <div class= 'alert alert-success'>{{ message }}</div>
+                            </li>
+                            {% endfor%}
+                        </ul>
+                        {% endif %}
                         <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Book now</button>
                     </form>
                    
