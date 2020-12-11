@@ -150,5 +150,10 @@ def account(request):
     user = request.user
     info = userinfo.objects.filter(user = user).first()
     reser = list(registerations.objects.filter(user = user).values())
+    for i in reser:
+        i['hotel'] = hotel.objects.filter(id = i['hotel_id']).values('name').first()
+        i['travel'] = travel.objects.filter(id = i['travel_id']).values('name').first()
+        i['destination'] = destination.objects.filter(id = i['destination_id']).values('name').first()
     data = {'info':info,'reser':reser }
+    print(data['reser'])
     return render(request,'profile.html',data)

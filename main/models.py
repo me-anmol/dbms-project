@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-import django.core.validators
 
 # Create your models here.
 class destination(models.Model):

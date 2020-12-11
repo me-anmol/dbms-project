@@ -8,6 +8,7 @@
     <title>{{ data.name}}</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css'%}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
 </head>
@@ -20,8 +21,8 @@
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
                     {% if user.is_authenticated%}
-						<li class= "nav-link" style="color: white; font-size: medium">Hello {{ user.first_name}}</li>
-						<li><a   href="{% url 'logout' %}">Logout</a></li>
+						<li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'account' %}">Hello {{ user.first_name}}</a></li>
+						<li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'logout' %}">Logout</a></li>
 					{% else %}
 						<li><a href="{% url 'login' %}">Login</a></li>
 						<li><a href="{% url 'register' %}">Register</a></li>
@@ -35,7 +36,11 @@
             <div class="container">
                 <div class="avatar" style="background-image:url(&quot;{{ data.img.url }}&quot;);"></div>
                 <div class="about-me">
+
                     <p>Hello! Great Choice <strong> {{ data.name }} </strong> {{ data.desc}} </p>
+                    <p>People Ratings</p>
+                    <p><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span></p>
+                    
                     <form method="post"action="{% url 'book' oid=data.id %}">
                         {% csrf_token %}
                         <h2 class="text-center"><strong>Selections</strong></h2>

@@ -132,9 +132,9 @@
                                 <div class="card-header py-3">
                                   <h6 class="text-primary m-0 font-weight-bold">Your Bookings</h6>
                                 </div>
-                                <div class="card-body">
                                 {% for item in reser %}
-                                  <div class="form-row">
+                                <div class="card-body">
+                                    <div class="form-row">
                                       <div class="col">
                                           <div class="form-group"><label for="first_name"><strong>Destination</strong></label>
                                           </label><p class="form" type="email" placeholder="user@example.com" name="email">{{ item.destination.name }}</div>
@@ -161,9 +161,10 @@
                                             <div class="form-group"><label for="email"><strong>Start Date</strong>
                                             </label><p class="form" type="email" placeholder="user@example.com" name="email">{{ item.start_date }}</div>
                                         </div>
-                                  {% endfor %}
                                 </div>
                               </div>
+                              <hr>
+                              {% endfor %}
                       </div>
                     </div>
                 </div>
