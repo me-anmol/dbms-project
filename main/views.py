@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from .models import destination,userinfo,hotel,travel,registerations
+from .models import destination,userinfo,hotel,travel,registerations,review
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
@@ -18,13 +18,13 @@ def home(request):
 def loginP(request):
     email = request.POST.get('email',False)
     pwd = request.POST.get('password',False)
-    print(email, pwd)
+
     if not pwd:
         return render(request,'login.html',{ 'flag': False ,'msg':'Invalid login' })
     user = authenticate(request,username = email ,password = pwd)
     if user is not None:
         login(request,user)
-        print(request.POST.get('next'))
+
         if request.POST.get('next',False):
 
             return redirect(request.POST.get('next'))
@@ -77,8 +77,11 @@ def desti(request,oid):
     data = destination.objects.filter(id = oid).first()
     hotel_list = list(hotel.objects.values('id','name','per_day_cost').filter(address = data.name))
     travel_list = list(travel.objects.values('id','name','rtc').filter(loc = data.name))
-    send = { 'data': data, 'hotel_list': hotel_list, 'travel_list':travel_list}
-    print(hotel_list)
+    rating = list(review.objects.filter(destination_id = oid).values())
+    send = { 'data': data, 'hotel_list': hotel_list, 'travel_list':travel_list, 'rating':rating}
+    for i in rating:
+        i['list1'] = range(i['rating'])
+
     return render(request,'destination.html',send)
 
 # This is to just logout from the current user
@@ -111,7 +114,7 @@ def book(request,oid):
         data.update_res()
         data.save()
         messages.success(request,"Booking Successfully done !!!!!")
-        print(request.path)
+
     else:
         messages.error(request,"Fill the Fields correctly")
     return redirect('/desti/'+oid)
@@ -154,6 +157,33 @@ def account(request):
         i['hotel'] = hotel.objects.filter(id = i['hotel_id']).values('name').first()
         i['travel'] = travel.objects.filter(id = i['travel_id']).values('name').first()
         i['destination'] = destination.objects.filter(id = i['destination_id']).values('name').first()
-    data = {'info':info,'reser':reser }
-    print(data['reser'])
+    book = list(review.objects.values_list('booking_id',flat =True))
+    print(book)
+    data = {'info':info,'reser':reser,'book':book}
+
     return render(request,'profile.html',data)
+
+#store the review
+def reviews(request):
+    star = request.POST.get('stars',False)
+    Revtext = request.POST.get('Revtext',False)
+    desti = destination.objects.filter(id = request.POST.get('destination_id', False)).first()
+    booking = registerations.objects.filter(id = request.POST.get('booking_id',False)).first()
+    user = request.user
+    print(request.POST.get('booking_id',False))
+    if (star and Revtext and desti and user):
+        rev = review()
+        rev.user = user
+        rev.destination = desti
+        rev.review_text = Revtext
+        rev.rating = star
+        rev.booking = booking
+        rev.save()
+        if (rev in review.objects.all()):
+            messages.error(request,"review already present")
+        else:
+            rev.save()
+            messages.success(request, "review is updated")
+    else:
+        messages.error(request, "Invalid Entry")
+    return redirect('/account/')

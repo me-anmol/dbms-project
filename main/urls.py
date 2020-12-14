@@ -12,5 +12,6 @@ urlpatterns = [
     path('book/<oid>', views.book, name ='book' ),
     path('phone', views.changePhone, name ='phone' ),
     path('account/',views.account, name = 'account'),
-    path('address/',views.changeAddress,name ='address')
+    path('address/',views.changeAddress,name ='address'),
+    path('review/',views.reviews,name='review')
 ]

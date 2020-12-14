@@ -36,11 +36,27 @@
             <div class="container">
                 <div class="avatar" style="background-image:url(&quot;{{ data.img.url }}&quot;);"></div>
                 <div class="about-me">
+                  {% if messages%}
+                  <ul clsass= 'messages'>
+                      {% for message in messages%}
+                      <li>
+                          <div class= 'alert alert-success'>{{ message }}</div>
+                      </li>
+                      {% endfor%}
+                  </ul>
+                  {% endif %}
 
                     <p>Hello! Great Choice <strong> {{ data.name }} </strong> {{ data.desc}} </p>
                     <p>People Ratings</p>
-                    <p><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span></p>
-                    
+                    {% for item in rating %}
+                    <p>
+                      {% for i in item.list1 %}
+                      <span class="fa fa-star" ></span>
+                      {% endfor %}
+                    <em> " {{ item.review_text }} "</em>
+                    </p>
+                    {% endfor %}
+
                     <form method="post"action="{% url 'book' oid=data.id %}">
                         {% csrf_token %}
                         <h2 class="text-center"><strong>Selections</strong></h2>
@@ -64,19 +80,11 @@
                         <div class="form-group"><input class="form-control" type="date" name="startdate" placeholder="Date Of Start"></div>
                         <hr class="sidebar-divider my-0"><small style="color: rgb(0, 0, 0);font-size: 20px;">Date Of End</small>
                         <div class="form-group"><input class="form-control" type="date" name="enddate" placeholder="Date Of End"></div>
-                        
-                        {% if messages%}
-                        <ul clsass= 'messages'>
-                            {% for message in messages%}
-                            <li>
-                                <div class= 'alert alert-success'>{{ message }}</div>
-                            </li>
-                            {% endfor%}
-                        </ul>
-                        {% endif %}
+
+
                         <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Book now</button>
                     </form>
-                   
+
             </div>
         </section>
     </main>

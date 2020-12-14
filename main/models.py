@@ -75,12 +75,13 @@ class registerations(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     def __str__(self):
-        return (self.user.first_name+ " " + self.destination.name)
+        return (self.user.first_name+ " " + self.destination.name+ " " + str (self.start_date))
 
 class review(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
-    destination = models.OneToOneField(destination,on_delete = models.CASCADE)
+    destination = models.ForeignKey(destination,on_delete = models.CASCADE)
     review_text = models.TextField()
     rating = models.IntegerField()
+    booking = models.OneToOneField(registerations,on_delete = models.CASCADE)
     def __str__(self):
-        return destination.name
+        return self.user.first_name + ' ' + self.destination.name + " " +str(self.booking.id )

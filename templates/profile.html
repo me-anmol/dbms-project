@@ -13,6 +13,7 @@
 </head>
 
 <body id="page-top">
+
     <div class="brands"></div>
     <div id="wrapper">
         <div class="d-flex flex-column" id="content-wrapper">
@@ -91,7 +92,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group"><label for="email"><strong>Phone Number</strong>
-                                                    </label><input class="form-control" type="number" placeholder={{ info.phone}} name="phone"></div>
+                                                    </label><input class="form-control" type="number" placeholder="{{ info.phone}}" name="phone"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
@@ -161,8 +162,33 @@
                                             <div class="form-group"><label for="email"><strong>Start Date</strong>
                                             </label><p class="form" type="email" placeholder="user@example.com" name="email">{{ item.start_date }}</div>
                                         </div>
-                                </div>
-                              </div>
+
+
+                                          {% if item.id not in book %}
+                                          <div class="col">
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#collapseExample{{item.id}}">Rate your visit</button>
+                                        <div class="collapse" id="collapseExample{{item.id}}">
+                                          <div class="card card-body">
+                                          <form action="{% url 'review' %}" method="POST" style="padding: 15px;">
+                                                      <div class="form-group">
+                                                          {% csrf_token %}
+                                                          <label for="Rating" >No. of stars </label>
+                                                          <input type="number" name="stars" class="form-control" placeholder="Stars">
+                                                          <label for="revtext">Enter your Reviews</label><br>
+                                                          <textarea name="Revtext"  cols="45" rows="10" placeholder="Review"></textarea>
+                                                          <input type="hidden" name = "destination_id" value="{{ item.destination_id }}">
+                                                          <input type="hidden" name = "booking_id" value="{{ item.id }}">
+                                                          <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                                                      </div>
+                                                    </form>
+
+                                            </div>
+                                          </div>
+                                        </div>
+                                          {% endif %}
+                                        </div>
+                                    </div>
+
                               <hr>
                               {% endfor %}
                       </div>
@@ -175,6 +201,7 @@
     <script src="{% static 'efa/bootstrap/js/bootstrap.min.js'%}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="{% static 'efa/js/theme.js'%}"></script>
+
 </body>
 
 </html>
